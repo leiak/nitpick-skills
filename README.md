@@ -1,3 +1,5 @@
+[中文](README.zh.md) | English
+
 # Nitpick
 
 A comprehensive project critique plugin for Claude Code and Codex.
@@ -5,17 +7,6 @@ A comprehensive project critique plugin for Claude Code and Codex.
 Nitpick audits your codebase across six dimensions, identifies systemic root causes, and produces a dependency-ordered upgrade roadmap.
 
 ## How It Works
-## Book Foundations
-
-Each dimension is grounded in principles from classic software engineering books:
-
-| Book | Author | Informs |
-|------|--------|---------|
-| *A Philosophy of Software Design* | John Ousterhout | Architecture: deep modules, complexity management, information hiding |
-| *The Pragmatic Programmer* | Hunt & Thomas | Architecture (orthogonality, DRY), Security (Design by Contract), DX (broken windows) |
-| *Clean Code* | Robert C. Martin | Code Quality: naming, functions, error handling, comments |
-| *Systems Performance* | Brendan Gregg | Performance: USE method, RED method |
-| *Growing Object-Oriented Software Guided by Tests* | Freeman & Pryce | Testing: testability as design, test pyramid |
 
 ```
 Profile ──▶ Rubric ──▶ 6 Dimension Reviews ──▶ Cross-Cutting Synthesis ──▶ Report + Roadmap
@@ -28,17 +19,37 @@ Profile ──▶ Rubric ──▶ 6 Dimension Reviews ──▶ Cross-Cutting S
 4. **Synthesis**: Cross-dimension signals are grouped into systemic root causes.
 5. **Report**: Structured output with scores, findings, and a dependency-ordered roadmap (fix X before Y).
 
+## Book Foundations
+
+Each dimension is grounded in principles from classic software engineering books:
+
+| Book | Author | Informs |
+|------|--------|---------|
+| *A Philosophy of Software Design* | John Ousterhout | Architecture: deep modules, complexity management, information hiding |
+| *The Pragmatic Programmer* | Hunt & Thomas | Architecture (orthogonality, DRY), Security (Design by Contract), DX (broken windows) |
+| *Clean Code* | Robert C. Martin | Code Quality: naming, functions, error handling, comments |
+| *Systems Performance* | Brendan Gregg | Performance: USE method, RED method |
+| *Growing Object-Oriented Software Guided by Tests* | Freeman & Pryce | Testing: testability as design, test pyramid |
+
 ## Dimensions
 
 | # | Dimension | Diagnostic Focus |
 |---|-----------|-----------------|
 | 0 | Shared Rubric | Severity definitions, score anchors, evidence standard, cross-dimension signals |
-| 1 | Architecture & Design | Where does business logic live? Dependency directions. State management. Cost of change. |
-| 2 | Code Quality | Function readability. Error handling. Type safety. Dead code. Consistency. |
-| 3 | Security | Secrets. Input validation. Auth/authz. Dependencies. Data protection. |
-| 4 | Performance | N+1 queries. Caching. Network efficiency. Memory. Startup time. |
-| 5 | Testing & Reliability | Coverage of critical paths. Test quality. CI. Graceful degradation. Observability. |
-| 6 | Developer Experience | Time to first change. Tooling automation. CI enforcement. Docs freshness. Git hygiene. |
+| 1 | Architecture & Design | Deep vs shallow modules. Complexity accumulation. Information hiding. Orthogonality. DRY. |
+| 2 | Code Quality | Naming intent. Function design. Comments. Error handling. Class cohesion. Boundaries. Type safety. |
+| 3 | Security | Design by Contract. Secrets. Input validation. Auth/authz. Dependencies. Data protection. |
+| 4 | Performance | USE method. RED method. N+1 queries. Caching. Network efficiency. Memory. |
+| 5 | Testing & Reliability | Test pyramid. Test quality. Mock preference. Anti-patterns. CI. Graceful degradation. Observability. |
+| 6 | Developer Experience | Time to first change. Broken windows. Tracer bullets. Good-enough calibration. CI. Docs freshness. |
+
+## Language
+
+Nitpick supports Chinese and English report output.
+
+- **Auto-detect**: The agent matches your language. If you write in Chinese, the report is in Chinese.
+- **Explicit**: Ask "用中文审查" for Chinese or "review in English" for English.
+- Default fallback is English.
 
 ## Install
 
@@ -71,23 +82,13 @@ Or run the installer:
 ```
 
 ## Usage
-## Language / 语言
-
-Nitpick supports Chinese and English report output.
-
-- **Auto-detect**: The agent matches your language. If you write in Chinese, the report is in Chinese.
-- **Explicit**: Ask "用中文审查" for Chinese or "review in English" for English.
-- Default fallback is English.
-
-Report templates:
-- English: `templates/report-template.md`
-- Chinese: `templates/report-template.zh.md`
 
 Ask your agent:
 
 - "Nitpick this project"
 - "Audit this codebase"
 - "Review the architecture and code quality"
+- "用中文审查这个项目"
 
 The agent will profile the project, apply all six diagnostic checklists, identify cross-cutting root causes, and write a report to `docs/reviews/YYYY-MM-DD-nitpick.md`.
 
@@ -121,14 +122,17 @@ nitpick/
 │           ├── 04-performance.md
 │           ├── 05-testing.md
 │           └── 06-dx.md
+│       └── templates/
+│           ├── report-template.md
+│           └── report-template.zh.md
 ├── templates/
-│   └── report-template.md       # Output report skeleton
+│   ├── report-template.md
+│   └── report-template.zh.md
 ├── install.ps1                   # One-command installer
+├── validate.ps1                  # Automated cross-reference validation
 └── README.md
 ```
 
 ## License
 
 MIT
-
-
