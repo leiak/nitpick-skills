@@ -32,23 +32,30 @@ foreach ($dim in $expectedDimensions) {
     Check "Dimension file: $dim" (Test-Path (Join-Path $skillRoot "dimensions\$dim"))
 }
 
+$languages = @("typescript.md", "python.md", "go.md", "rust.md", "java.md", "csharp.md")
+foreach ($lang in $languages) {
+    Check "Language guide: $lang" (Test-Path (Join-Path $skillRoot "languages\$lang"))
+}
+
 # 2. Cross-reference validation
 Write-Host "`n[2] SKILL.md cross-references" -ForegroundColor White
 $skillContent = Get-Content (Join-Path $skillRoot "SKILL.md") -Raw
 
-# Extract and check template references (should be relative to skill root, not ../../)
 $templateRefs = [regex]::Matches($skillContent, 'templates/[\w\.\-]+\.md') | ForEach-Object { $_.Value } | Select-Object -Unique
 foreach ($ref in $templateRefs) {
     Check "Template reference: $ref" (Test-Path (Join-Path $skillRoot $ref))
 }
 
-# Extract and check dimension references
 $dimRefs = [regex]::Matches($skillContent, 'dimensions/(\d{2}[\w\-]+\.md)') | ForEach-Object { $_.Groups[1].Value } | Select-Object -Unique
 foreach ($ref in $dimRefs) {
     Check "Dimension reference: $ref" (Test-Path (Join-Path $skillRoot "dimensions\$ref"))
 }
 
-# Check for broken ../../ paths (should not exist — templates are self-contained)
+$langRefs = [regex]::Matches($skillContent, 'languages/([\w]+\.md)') | ForEach-Object { $_.Groups[1].Value } | Select-Object -Unique
+foreach ($ref in $langRefs) {
+    Check "Language reference: $ref" (Test-Path (Join-Path $skillRoot "languages\$ref"))
+}
+
 $brokenPaths = [regex]::Matches($skillContent, '\.\./\.\./templates/') | ForEach-Object { $_.Value }
 Check "No broken ../../ template paths" ($brokenPaths.Count -eq 0)
 
@@ -65,7 +72,6 @@ $templates = @("report-template.md", "report-template.zh.md")
 foreach ($tpl in $templates) {
     Check "Template: $tpl" (Test-Path (Join-Path $skillRoot "templates\$tpl"))
 }
-# Check templates dir at root also exists (for source repo)
 foreach ($tpl in $templates) {
     Check "Root template: $tpl" (Test-Path (Join-Path $PSScriptRoot "templates\$tpl"))
 }
@@ -84,11 +90,9 @@ if ($TestInstall) {
     New-Item -ItemType Directory -Path $tempDir -Force | Out-Null
 
     try {
-        # Copy skill to temp location
         $tempSkill = Join-Path $tempDir "nitpick"
         Copy-Item -Recurse $skillRoot $tempSkill
 
-        # Verify all files landed
         $srcFiles = Get-ChildItem $skillRoot -Recurse -File | ForEach-Object { $_.FullName.Replace("$skillRoot\", "") }
         $allCopied = $true
         foreach ($f in $srcFiles) {
@@ -103,7 +107,6 @@ if ($TestInstall) {
             $pass++
         }
 
-        # Verify SKILL.md references resolve from installed location
         $installedSkill = Get-Content (Join-Path $tempSkill "SKILL.md") -Raw
         $installedRefs = [regex]::Matches($installedSkill, 'templates/[\w\.\-]+\.md') | ForEach-Object { $_.Value }
         $refOk = $true

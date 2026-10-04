@@ -55,13 +55,31 @@ Also note:
 - **Team size hint**: solo vs team
 - **Has CI**: check `.github/workflows/`, `.gitlab-ci.yml`, `Makefile`
 
-### Step 2: Read the Shared Rubric
+### Step 2: Detect Language
+
+Identify the primary programming language(s) from the project files. If a
+language-specific review guide exists in `languages/`, read it now and apply
+its questions alongside the six dimension reviews.
+
+Available language guides:
+
+- `languages/typescript.md` — TypeScript / JavaScript
+- `languages/python.md` — Python
+- `languages/go.md` — Go
+- `languages/rust.md` — Rust
+- `languages/java.md` — Java / Kotlin
+- `languages/csharp.md` — C# / .NET
+
+If the project uses multiple languages, read the guide for each. If no guide
+exists for the language, note this and continue with the general dimensions.
+
+### Step 3: Read the Shared Rubric
 
 Read `dimensions/00-rubric.md` before starting any dimension review. This
 defines severity levels (P0-P3), evidence standards, score anchors, and
 cross-dimension signals. All dimensions use these shared definitions.
 
-### Step 3: Dimension Review
+### Step 4: Dimension Review
 
 For each dimension, read its file in `dimensions/` and apply the checklist to
 the project. Read actual source code — do not guess from file names.
@@ -80,7 +98,7 @@ For each dimension, produce:
 - Findings tagged P0-P3 with file:line evidence
 - Cross-dimension signals (`@root:...`) where applicable
 
-### Step 4: Cross-Cutting Synthesis
+### Step 5: Cross-Cutting Synthesis
 
 After all six dimensions are reviewed, identify systemic patterns:
 
@@ -92,7 +110,7 @@ After all six dimensions are reviewed, identify systemic patterns:
 
 This step separates a useful audit from a list of symptoms.
 
-### Step 5: Report Generation
+### Step 6: Report Generation
 
 Generate a single Markdown report using the template for your language
 (see Language section above). Write it to:
@@ -102,7 +120,7 @@ Generate a single Markdown report using the template for your language
 If you are running in a chat without file-write access, output the full report
 in your response instead.
 
-### Step 6: Upgrade Roadmap
+### Step 7: Upgrade Roadmap
 
 Synthesize all findings into a dependency-ordered roadmap. Order matters:
 fixing X may make Y trivial, or fixing Y without X may be wasted effort.
@@ -131,4 +149,5 @@ timeout" is useful.
 - If you cannot verify a concern, do not invent it. Mark it "needs verification".
 - Do not penalize a project for not being something it is not trying to be.
   Use the project profile from Step 1.
+
 

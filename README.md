@@ -44,6 +44,18 @@ Each dimension is grounded in principles from classic software engineering books
 | 6 | Developer Experience | Time to first change. Broken windows. Tracer bullets. Good-enough calibration. CI. Docs freshness. |
 
 ## Language
+## Language-Specific Reviews
+
+Beyond the six general dimensions, Nitpick applies language-specific diagnostic questions derived from each language's classic books:
+
+| Language | Book Source | Key Checks |
+|----------|-------------|-----------|
+| TypeScript / JavaScript | *Effective TypeScript* (Vanderkam) | Type safety, discriminated unions, no `any`, DI, async patterns |
+| Python | *Fluent Python* (Ramalho) | Pythonic idioms, dunder methods, mutable defaults, type hints, GIL awareness |
+| Go | *Effective Go* + Go Proverbs | Small interfaces, error wrapping, context propagation, goroutine leaks, race detector |
+| Rust | *The Rust Programming Language* | Ownership, borrowing, `unwrap()` avoidance, trait design, newtypes |
+| Java / Kotlin | *Effective Java* (Bloch) | Builder pattern, immutability, DI, generics (no raw types), try-with-resources |
+| C# / .NET | *C# in Depth* (Skeet) | Nullable reference types, LINQ deferred execution, async/await correctness, records |
 
 Nitpick supports Chinese and English report output.
 
@@ -136,3 +148,4 @@ nitpick/
 ## License
 
 MIT
+

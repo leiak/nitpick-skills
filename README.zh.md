@@ -44,6 +44,18 @@ Nitpick 对代码库进行六个维度的深度审查，识别系统性根因，
 | 6 | 开发者体验 | 首次变更时间。破窗户。Tracer Bullet。Good-Enough 校准。CI。文档新鲜度。 |
 
 ## 语言支持
+## 语言专属审查
+
+除了六个通用维度外，Nitpick 还根据每种语言的经典书籍提供专属诊断问题：
+
+| 语言 | 书籍来源 | 核心检查 |
+|------|----------|----------|
+| TypeScript / JavaScript | *Effective TypeScript* (Vanderkam) | 类型安全、可辨识联合、禁止 any、依赖注入、async 模式 |
+| Python | *Fluent Python* (Ramalho) | Pythonic 惯用法、dunder 方法、可变默认参数、类型标注、GIL 意识 |
+| Go | *Effective Go* + Go Proverbs | 小接口、错误包装、context 传播、goroutine 泄漏、竞态检测 |
+| Rust | *The Rust Programming Language* | 所有权、借用、避免 unwrap、trait 设计、newtype |
+| Java / Kotlin | *Effective Java* (Bloch) | Builder 模式、不可变性、DI、泛型（禁止原始类型）、try-with-resources |
+| C# / .NET | *C# in Depth* (Skeet) | 可空引用类型、LINQ 延迟执行、async/await 正确性、record 类型 |
 
 Nitpick 支持中文和英文报告输出。
 
@@ -136,3 +148,4 @@ nitpick/
 ## 许可证
 
 MIT
+
