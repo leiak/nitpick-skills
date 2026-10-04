@@ -67,3 +67,30 @@ If the project is Rust, read this file in addition to the six dimension files. A
 - `unwrap()` in production code → note this in Security (crash on malformed input)
 - `unsafe` blocks without justification → tag `@root:no-tests` (untestable memory safety)
 - Missing newtype wrappers → note this in Code Quality (naming and type safety)
+
+## Advanced Rust (from *Rust for Rustaceans* and *Zero to Production in Rust*)
+
+### RU8: Is async Rust used correctly?
+
+(Palmieri, *Zero to Production*: "Async Rust has subtle pitfalls — blocking the executor, holding non-Send data across await points, and unstructured task spawning.")
+
+- Are blocking calls (synchronous I/O, CPU-heavy loops) inside `async` functions avoided? Use `tokio::task::spawn_blocking` instead.
+- Are `Send` bounds satisfied when holding data across `.await` points?
+- Is `tokio::select!` used for timeout and cancellation patterns?
+- Are tasks spawned with structured concurrency (`tokio::spawn` within a scope that joins them)?
+
+### RU9: Is error handling production-grade?
+
+(Gjengset, *Rust for Rustaceans*: "Error handling in Rust goes beyond Result — it is about designing error types that are ergonomic, composable, and preserve information.")
+
+- Are error types `Send + Sync + 'static` (required for cross-thread propagation)?
+- Is `thiserror` used for library errors and `anyhow` for application errors?
+- Are error sources chained correctly (`.source()` traversal works)?
+- Are opaque errors used at API boundaries (hide internal types)?
+
+### RU10: Are lifetime patterns understood?
+
+- Are there `'static` bounds used correctly?
+- Are self-referential structs avoided (or handled with `pin-project`)?
+- Are `Cow<'a, T>` used to avoid unnecessary clones?
+- Are trait objects (`dyn Trait`) used with explicit lifetime annotations where needed?

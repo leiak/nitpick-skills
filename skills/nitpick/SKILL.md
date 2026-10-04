@@ -67,8 +67,13 @@ Available language guides:
 - `languages/python.md` — Python
 - `languages/go.md` — Go
 - `languages/rust.md` — Rust
-- `languages/java.md` — Java / Kotlin
+- `languages/java.md` — Java
+- `languages/kotlin.md` — Kotlin
 - `languages/csharp.md` — C# / .NET
+- `languages/cpp.md` — C / C++
+- `languages/swift.md` — Swift
+- `languages/ruby.md` — Ruby
+- `languages/php.md` — PHP
 
 If the project uses multiple languages, read the guide for each. If no guide
 exists for the language, note this and continue with the general dimensions.
@@ -149,5 +154,6 @@ timeout" is useful.
 - If you cannot verify a concern, do not invent it. Mark it "needs verification".
 - Do not penalize a project for not being something it is not trying to be.
   Use the project profile from Step 1.
+
 
 

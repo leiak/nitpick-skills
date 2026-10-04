@@ -50,12 +50,17 @@ Nitpick 对代码库进行六个维度的深度审查，识别系统性根因，
 
 | 语言 | 书籍来源 | 核心检查 |
 |------|----------|----------|
-| TypeScript / JavaScript | *Effective TypeScript* (Vanderkam) | 类型安全、可辨识联合、禁止 any、依赖注入、async 模式 |
-| Python | *Fluent Python* (Ramalho) | Pythonic 惯用法、dunder 方法、可变默认参数、类型标注、GIL 意识 |
-| Go | *Effective Go* + Go Proverbs | 小接口、错误包装、context 传播、goroutine 泄漏、竞态检测 |
-| Rust | *The Rust Programming Language* | 所有权、借用、避免 unwrap、trait 设计、newtype |
-| Java / Kotlin | *Effective Java* (Bloch) | Builder 模式、不可变性、DI、泛型（禁止原始类型）、try-with-resources |
-| C# / .NET | *C# in Depth* (Skeet) | 可空引用类型、LINQ 延迟执行、async/await 正确性、record 类型 |
+| TypeScript / JavaScript | *Effective TypeScript*, *Programming TypeScript* | 类型安全、可辨识联合、禁止 any、依赖注入、async 模式 |
+| Python | *Fluent Python*, *Effective Python* | Pythonic 惯用法、dunder 方法、可变默认参数、类型标注、GIL 意识 |
+| Go | *Effective Go*, *100 Go Mistakes* | 小接口、错误包装、context 传播、goroutine 泄漏、竞态检测 |
+| Rust | *The Rust Programming Language*, *Rust for Rustaceans* | 所有权、借用、避免 unwrap、trait 设计、newtype、async 陷阱 |
+| Java | *Effective Java*, *Java Concurrency in Practice* | Builder 模式、不可变性、DI、泛型、try-with-resources、并发 |
+| Kotlin | *Kotlin in Action*, Kotlin docs | 空安全（禁 `!!`）、协程、结构化并发、sealed class、scope 函数 |
+| C# / .NET | *C# in Depth*, *CLR via C#*, *Adaptive Code* | 可空引用类型、LINQ 延迟执行、async/await、record、Span/Memory |
+| C / C++ | *Effective C++*, *Effective Modern C++* | RAII、智能指针、虚析构、Rule of Five、`const` 正确性 |
+| Swift | *The Swift Programming Language*, POP (WWDC) | 协议优于继承、值类型、Optional 安全、循环引用、Swift Concurrency |
+| Ruby | *Practical Object-Oriented Design*, *Well-Grounded Rubyist* | 单一职责、依赖注入、鸭子类型、元编程、N+1 查询 |
+| PHP | *Modern PHP*, PSR 标准 | `strict_types`、PSR 合规、预处理语句、`@` 抑制、框架惯用法 |
 
 Nitpick 支持中文和英文报告输出。
 
@@ -148,4 +153,5 @@ nitpick/
 ## 许可证
 
 MIT
+
 

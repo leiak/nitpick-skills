@@ -83,3 +83,33 @@ If the project is Go, read this file in addition to the six dimension files. App
 - Unchecked errors → tag `@root:no-tests` (errors are silently dropped)
 - Missing context propagation → note this in Performance (no timeout control)
 - Race conditions → tag `@root:no-tests` (race detector not run)
+
+## Advanced Go Concurrency (from *100 Go Mistakes* and *Concurrency in Go*)
+
+### GO10: Are common concurrency mistakes avoided?
+
+(Harsanyi, *100 Go Mistakes*: specific items #5, #63-72)
+
+- **Interface pollution (#5)**: Are interfaces created "just in case"? (Harsanyi: "Abstractions should be discovered, not created. Create interfaces only when needed or when the abstraction is demonstrably valuable.") Interfaces defined before multiple implementations exist are premature.
+- **Loop variable capture (#63)**: If `go.mod` declares Go < 1.22, check for the classic closure-in-loop bug. Go 1.22+ fixes this with per-iteration scoping.
+- **Select ordering assumption (#64)**: When multiple `select` cases are ready, Go picks one randomly. Do not assume top-to-bottom order.
+- **Notification channels (#65)**: Use `chan struct{}` for signal-only channels (no data payload).
+- **Nil channels (#66)**: A nil channel blocks forever in send/receive. Use this to disable specific `select` branches.
+- **Channel sizing (#67)**: Unbuffered channels provide strong synchronization guarantees. If using buffered and unsure of size, start with 1.
+- **String formatting side effects (#68)**: `fmt.Sprintf("%v", ctx)` on a `context.Context` traverses stored values — this can cause data races and deadlocks.
+- **append data races (#69)**: `append` on a shared slice is not thread-safe. Do not concurrently `append` to a shared slice.
+- **Mutex on slices/maps (#70)**: Slices and maps are reference types. Copying them does not copy the underlying data — a mutex on the copy does not protect the original.
+
+### GO11: Are goroutines bounded?
+
+(Harsanyi: "Unbounded input should never mean unbounded goroutines.")
+
+- Is there a `for _, x := range hugeSlice { go work(x) }` pattern? This starts one goroutine per item and can exhaust memory or overwhelm downstream services.
+- Is a bounded worker pool used (fixed number of goroutines pulling from a shared channel)?
+- Are `semaphore.Weighted` or buffered channels used as semaphores to cap concurrency?
+
+### GO12: Is `sync.WaitGroup` used correctly?
+
+- Is `wg.Add()` called before starting the goroutine (not inside it)?
+- Is `wg.Done()` called via `defer` to ensure it runs even on panic?
+- Is `wg.Wait()` called after all `Add()` calls?

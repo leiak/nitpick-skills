@@ -89,3 +89,31 @@ If the project is Java, read this file in addition to the six dimension files. A
 - Public mutable fields → tag `@root:fat-controllers` (no encapsulation)
 - Missing DI → note this in Testing (hard to mock)
 - Raw types → tag `@root:no-types`
+
+## Advanced Java (from *Java Concurrency in Practice* and additional *Effective Java* items)
+
+### JV9: Is concurrency handled correctly?
+
+(Goetz, *Java Concurrency in Practice*: "Mutable state accessed from multiple threads without synchronization is a data race.")
+
+- Are shared mutable variables declared `volatile` (for visibility) or `Atomic` (for atomicity)?
+- Are `synchronized` blocks small and focused (not entire methods)?
+- Are `ConcurrentHashMap` / `CopyOnWriteArrayList` used instead of synchronized collections?
+- Are `ExecutorService` / `CompletableFuture` used instead of raw `Thread`?
+- Are `ThreadLocal` variables cleaned up (memory leak prevention)?
+- Are `CountDownLatch` / `CyclicBarrier` / `Semaphore` used appropriately for coordination?
+
+### JV10: Are records used for immutable data?
+
+(Java 14+: records provide immutable data carriers)
+
+- Are `record` types used for DTOs and value objects instead of manual getters/setters?
+- Are sealed interfaces used for restricted type hierarchies (Java 17+)?
+- Are pattern matching for switch used (Java 21+)?
+
+### JV11: Are streams used correctly?
+
+- Are streams preferred over imperative loops for transformations?
+- Are there side effects in stream operations (`.peek()` used for mutation)?
+- Are collectors (`Collectors.toList()`, `Collectors.groupingBy()`) used instead of manual accumulation?
+- Are parallel streams used only when the data set is large and the operation is CPU-bound?

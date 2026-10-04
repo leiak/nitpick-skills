@@ -32,7 +32,7 @@ foreach ($dim in $expectedDimensions) {
     Check "Dimension file: $dim" (Test-Path (Join-Path $skillRoot "dimensions\$dim"))
 }
 
-$languages = @("typescript.md", "python.md", "go.md", "rust.md", "java.md", "csharp.md")
+$languages = @("typescript.md", "python.md", "go.md", "rust.md", "java.md", "kotlin.md", "csharp.md", "cpp.md", "swift.md", "ruby.md", "php.md")
 foreach ($lang in $languages) {
     Check "Language guide: $lang" (Test-Path (Join-Path $skillRoot "languages\$lang"))
 }
@@ -132,3 +132,4 @@ Write-Host "  Results: $pass pass, $fail fail" -ForegroundColor $(if ($fail -eq 
 Write-Host "  ==================`n" -ForegroundColor Cyan
 
 exit $(if ($fail -eq 0) { 0 } else { 1 })
+

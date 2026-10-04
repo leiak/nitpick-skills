@@ -79,3 +79,31 @@ If the project is Python, read this file in addition to the six dimension files.
 - No type hints → tag `@root:no-types`
 - Mutable default arguments → tag `@root:no-tests` (these create hidden shared state that makes testing unreliable)
 - Blocking calls in async functions → note this in Performance (event loop blocking)
+
+## Advanced Python (from *Effective Python* and *Python Cookbook*)
+
+### PY9: Are Effective Python best practices applied?
+
+(Slatkin, *Effective Python*: specific items)
+
+- **Item 2**: Are PEP 8 naming conventions followed (snake_case for functions/variables, PascalCase for classes, UPPER_SNAKE for constants)?
+- **Item 15**: Are `functools.lru_cache` / `functools.cache` used for expensive pure functions?
+- **Item 22**: Are `dataclasses` used instead of manual `__init__` (with `frozen=True` for immutability)?
+- **Item 36**: Are iterator/generator protocols used with `itertools` for composable pipelines?
+- **Item 47**: Are context managers used for lock acquisition/release (avoiding manual `acquire`/`release`)?
+- **Item 55**: Are `reprlib` / `pprint` used for debugging output instead of manual formatting?
+
+### PY10: Are closures and decorators used correctly?
+
+(Ramalho: "Build a complete mental model of how closures capture variables and how decorators transform callables.")
+
+- Are `functools.wraps` used in decorator definitions (preserving function metadata)?
+- Are mutable state captured in closures (shared across calls)?
+- Are decorators with parameters implemented correctly (three levels of nesting)?
+- Is the stacking order of multiple decorators understood and documented?
+
+### PY11: Is the GIL considered?
+
+- Are CPU-bound operations run in `ProcessPoolExecutor` (bypassing GIL)?
+- Are I/O-bound operations run in `ThreadPoolExecutor` or `asyncio`?
+- Are shared data structures protected by locks when accessed from multiple threads?

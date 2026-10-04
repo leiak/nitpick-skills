@@ -67,3 +67,30 @@ If the project is C#, read this file in addition to the six dimension files. App
 - `async void` in non-event-handler code → tag `@root:no-tests` (untestable, exceptions crash the process)
 - Missing `Nullable` enable → tag `@root:no-types`
 - LINQ performance traps → note this in Performance
+
+## Advanced C# (from *CLR via C#* and *Adaptive Code*)
+
+### CS8: Is the CLR understood?
+
+(Richter, *CLR via C#*: "The CLR is the foundation — understand garbage collection, JIT compilation, and assembly loading to write performant code.")
+
+- Are value types (`struct`) used for small, short-lived data (avoiding heap allocation)?
+- Are `Span<T>` / `Memory<T>` used for efficient slicing without copies?
+- Is `ArrayPool<T>` / `MemoryPool<T>` used for large buffer reuse?
+- Are strings interned (`string.Intern()`) where appropriate?
+- Are there boxing/unboxing issues (value type stored in `object` or interface)?
+
+### CS9: Is dependency injection used flexibly?
+
+(Hall, *Adaptive Code*: "Design for adaptability — loose coupling through DI enables change without pain.")
+
+- Are interfaces used for all service dependencies (not concrete classes)?
+- Is the DI container configured in a single composition root?
+- Are lifetimes (Transient, Scoped, Singleton) chosen correctly?
+- Are there captive dependencies (Singleton depending on Scoped)?
+
+### CS10: Are source generators and AOT compilation considered?
+
+- Are source generators used for boilerplate elimination (System.Text.Json, Mapperly)?
+- Is Native AOT / trimming considered for startup-critical paths?
+- Are there reflection-heavy patterns that could be replaced with source-generated code?

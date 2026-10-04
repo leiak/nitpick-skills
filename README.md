@@ -50,12 +50,17 @@ Beyond the six general dimensions, Nitpick applies language-specific diagnostic 
 
 | Language | Book Source | Key Checks |
 |----------|-------------|-----------|
-| TypeScript / JavaScript | *Effective TypeScript* (Vanderkam) | Type safety, discriminated unions, no `any`, DI, async patterns |
-| Python | *Fluent Python* (Ramalho) | Pythonic idioms, dunder methods, mutable defaults, type hints, GIL awareness |
-| Go | *Effective Go* + Go Proverbs | Small interfaces, error wrapping, context propagation, goroutine leaks, race detector |
-| Rust | *The Rust Programming Language* | Ownership, borrowing, `unwrap()` avoidance, trait design, newtypes |
-| Java / Kotlin | *Effective Java* (Bloch) | Builder pattern, immutability, DI, generics (no raw types), try-with-resources |
-| C# / .NET | *C# in Depth* (Skeet) | Nullable reference types, LINQ deferred execution, async/await correctness, records |
+| TypeScript / JavaScript | *Effective TypeScript* (Vanderkam), *Programming TypeScript* (Cherny) | Type safety, discriminated unions, no `any`, DI, async patterns |
+| Python | *Fluent Python* (Ramalho), *Effective Python* (Slatkin) | Pythonic idioms, dunder methods, mutable defaults, type hints, GIL awareness |
+| Go | *Effective Go*, *100 Go Mistakes* (Harsanyi), Go Proverbs | Small interfaces, error wrapping, context propagation, goroutine leaks, race detector |
+| Rust | *The Rust Programming Language*, *Rust for Rustaceans* (Gjengset), *Zero to Production* (Palmieri) | Ownership, borrowing, `unwrap()` avoidance, trait design, newtypes, async pitfalls |
+| Java | *Effective Java* (Bloch), *Java Concurrency in Practice* (Goetz) | Builder pattern, immutability, DI, generics, try-with-resources, concurrency |
+| Kotlin | *Kotlin in Action*, Kotlin docs | Null safety (no `!!`), coroutines, structured concurrency, sealed classes, scope functions |
+| C# / .NET | *C# in Depth* (Skeet), *CLR via C#* (Richter), *Adaptive Code* (Hall) | Nullable reference types, LINQ deferred execution, async/await correctness, records, Span/Memory |
+| C / C++ | *Effective C++* (Meyers), *Effective Modern C++* (Meyers), K&R | RAII, smart pointers, virtual destructors, Rule of Five, `const` correctness, modern C++ |
+| Swift | *The Swift Programming Language*, Protocol-Oriented Programming (WWDC) | Protocols over inheritance, value types, optional safety, retain cycles, Swift Concurrency |
+| Ruby | *Practical Object-Oriented Design* (Metz), *Well-Grounded Rubyist* (Black) | Single responsibility, dependency injection, duck typing, metaprogramming, N+1 queries |
+| PHP | *Modern PHP* (Lockhart), PSR standards | `strict_types`, PSR compliance, prepared statements, `@` suppression, framework idioms |
 
 Nitpick supports Chinese and English report output.
 
@@ -148,4 +153,5 @@ nitpick/
 ## License
 
 MIT
+
 

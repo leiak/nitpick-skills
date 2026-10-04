@@ -81,3 +81,30 @@ If the project is TypeScript, read this file in addition to the six dimension fi
 - Heavy use of `any` / `as` → tag `@root:no-types`
 - Missing discriminated unions → note this in Architecture (state management)
 - Over-mocking in tests → note this in Testing (coupling)
+
+## Advanced TypeScript (from *Programming TypeScript* and *Effective TypeScript*)
+
+### TS10: Is the type system used for domain modeling?
+
+(Cherny: "Types are the language of API design in TypeScript. The more precise the type, the more runtime errors are caught ahead of time.")
+
+- Are generic constraints used (`<T extends BaseEntity>`) to express relationships?
+- Are mapped types (`{ [K in keyof T]: ... }`) used to derive types from existing ones?
+- Are conditional types (`T extends U ? X : Y`) used for type-level logic?
+- Are template literal types used for string manipulation at the type level?
+- Are `satisfies` operators used (TypeScript 4.9+) to validate without widening?
+
+### TS11: Are API types designed for developer experience?
+
+(Vanderkam: "If it type-checks, it should work. Error messages should be short and easy to understand. Auto-complete should nudge users toward working code.")
+
+- Do type errors produce readable messages, or are they walls of text?
+- Are discriminated unions used with a `type` field for easy narrowing?
+- Are overloads used to provide better auto-complete for different call patterns?
+- Are `unknown` and `never` used at boundaries (instead of `any`)?
+
+### TS12: Are TypeScript decorators used correctly?
+
+- Are decorators applied with the correct order and metadata?
+- Are experimental decorators (`experimentalDecorators` in tsconfig) vs standard decorators noted?
+- Are decorators typed correctly with `TypedPropertyDescriptor<T>`?
