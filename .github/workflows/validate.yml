@@ -1,0 +1,28 @@
+name: Validate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Markdown lint
+        uses: DavidAnson/markdownlint-cli2-action@v18
+        with:
+          globs: |
+            **/*.md
+            !**/node_modules/**
+
+      - name: Run validator
+        shell: pwsh
+        run: ./validate.ps1
+
+      - name: Install test
+        shell: pwsh
+        run: ./validate.ps1 -TestInstall

@@ -1,0 +1,131 @@
+# validate.ps1 — Automated cross-reference and integrity validation
+# Usage: .\validate.ps1 [-TestInstall]
+param(
+    [switch]$TestInstall
+)
+
+$ErrorActionPreference = "Stop"
+$pass = 0; $fail = 0
+
+function Check {
+    param([string]$Description, [bool]$Condition)
+    if ($Condition) {
+        Write-Host "  PASS: $Description" -ForegroundColor Green
+        $script:pass++
+    } else {
+        Write-Host "  FAIL: $Description" -ForegroundColor Red
+        $script:fail++
+    }
+}
+
+Write-Host "`n  Nitpick Validator" -ForegroundColor Cyan
+Write-Host "  ==================`n" -ForegroundColor Cyan
+
+# 1. Skill source integrity
+Write-Host "[1] Skill source structure" -ForegroundColor White
+$skillRoot = Join-Path $PSScriptRoot "skills\nitpick"
+Check "SKILL.md exists" (Test-Path (Join-Path $skillRoot "SKILL.md"))
+Check "Rubric exists" (Test-Path (Join-Path $skillRoot "dimensions\00-rubric.md"))
+
+$expectedDimensions = @("01-architecture.md", "02-code-quality.md", "03-security.md", "04-performance.md", "05-testing.md", "06-dx.md")
+foreach ($dim in $expectedDimensions) {
+    Check "Dimension file: $dim" (Test-Path (Join-Path $skillRoot "dimensions\$dim"))
+}
+
+# 2. Cross-reference validation
+Write-Host "`n[2] SKILL.md cross-references" -ForegroundColor White
+$skillContent = Get-Content (Join-Path $skillRoot "SKILL.md") -Raw
+
+# Extract and check template references (should be relative to skill root, not ../../)
+$templateRefs = [regex]::Matches($skillContent, 'templates/[\w\.\-]+\.md') | ForEach-Object { $_.Value } | Select-Object -Unique
+foreach ($ref in $templateRefs) {
+    Check "Template reference: $ref" (Test-Path (Join-Path $skillRoot $ref))
+}
+
+# Extract and check dimension references
+$dimRefs = [regex]::Matches($skillContent, 'dimensions/(\d{2}[\w\-]+\.md)') | ForEach-Object { $_.Groups[1].Value } | Select-Object -Unique
+foreach ($ref in $dimRefs) {
+    Check "Dimension reference: $ref" (Test-Path (Join-Path $skillRoot "dimensions\$ref"))
+}
+
+# Check for broken ../../ paths (should not exist — templates are self-contained)
+$brokenPaths = [regex]::Matches($skillContent, '\.\./\.\./templates/') | ForEach-Object { $_.Value }
+Check "No broken ../../ template paths" ($brokenPaths.Count -eq 0)
+
+# 3. Dimension cross-references (rubric)
+Write-Host "`n[3] Dimension file cross-references" -ForegroundColor White
+foreach ($dim in $expectedDimensions) {
+    $dimContent = Get-Content (Join-Path $skillRoot "dimensions\$dim") -Raw
+    Check "$dim references rubric" ($dimContent -match '00-rubric\.md')
+}
+
+# 4. Templates consistency
+Write-Host "`n[4] Template files" -ForegroundColor White
+$templates = @("report-template.md", "report-template.zh.md")
+foreach ($tpl in $templates) {
+    Check "Template: $tpl" (Test-Path (Join-Path $skillRoot "templates\$tpl"))
+}
+# Check templates dir at root also exists (for source repo)
+foreach ($tpl in $templates) {
+    Check "Root template: $tpl" (Test-Path (Join-Path $PSScriptRoot "templates\$tpl"))
+}
+
+# 5. Install script integrity
+Write-Host "`n[5] Install script" -ForegroundColor White
+$installScript = Get-Content (Join-Path $PSScriptRoot "install.ps1") -Raw
+Check "install.ps1 has path validation" ($installScript -match 'GetFullPath|StartsWith')
+Check "install.ps1 has -Target param" ($installScript -match 'ValidateSet')
+Check "install.ps1 references skill path" ($installScript -match 'nitpick')
+
+# 6. Optional: install-and-verify test
+if ($TestInstall) {
+    Write-Host "`n[6] Install test (temp directory)" -ForegroundColor White
+    $tempDir = Join-Path ([System.IO.Path]::GetTempPath()) "nitpick-test-$(Get-Random)"
+    New-Item -ItemType Directory -Path $tempDir -Force | Out-Null
+
+    try {
+        # Copy skill to temp location
+        $tempSkill = Join-Path $tempDir "nitpick"
+        Copy-Item -Recurse $skillRoot $tempSkill
+
+        # Verify all files landed
+        $srcFiles = Get-ChildItem $skillRoot -Recurse -File | ForEach-Object { $_.FullName.Replace("$skillRoot\", "") }
+        $allCopied = $true
+        foreach ($f in $srcFiles) {
+            if (-not (Test-Path (Join-Path $tempSkill $f))) {
+                Write-Host "  FAIL: Missing after install: $f" -ForegroundColor Red
+                $allCopied = $false
+                $fail++
+            }
+        }
+        if ($allCopied) {
+            Write-Host "  PASS: All files copied intact" -ForegroundColor Green
+            $pass++
+        }
+
+        # Verify SKILL.md references resolve from installed location
+        $installedSkill = Get-Content (Join-Path $tempSkill "SKILL.md") -Raw
+        $installedRefs = [regex]::Matches($installedSkill, 'templates/[\w\.\-]+\.md') | ForEach-Object { $_.Value }
+        $refOk = $true
+        foreach ($ref in $installedRefs) {
+            if (-not (Test-Path (Join-Path $tempSkill $ref))) {
+                Write-Host "  FAIL: Broken reference from installed: $ref" -ForegroundColor Red
+                $refOk = $false
+                $fail++
+            }
+        }
+        if ($refOk) {
+            Write-Host "  PASS: All references resolve from installed location" -ForegroundColor Green
+            $pass++
+        }
+    } finally {
+        Remove-Item -Recurse -Force $tempDir -ErrorAction SilentlyContinue
+    }
+}
+
+# Summary
+Write-Host "`n  ==================" -ForegroundColor Cyan
+Write-Host "  Results: $pass pass, $fail fail" -ForegroundColor $(if ($fail -eq 0) { "Green" } else { "Red" })
+Write-Host "  ==================`n" -ForegroundColor Cyan
+
+exit $(if ($fail -eq 0) { 0 } else { 1 })
