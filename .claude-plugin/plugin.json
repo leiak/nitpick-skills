@@ -1,0 +1,30 @@
+{
+  "name": "nitpick",
+  "description": "Comprehensive project critique plugin. Reviews codebases across six dimensions (architecture, code quality, security, performance, testing, DX) plus 11 language-specific guides, produces structured audit reports with severity-ranked findings and dependency-ordered upgrade roadmaps. Supports Chinese and English output.",
+  "version": "1.0.0",
+  "author": {
+    "name": "leiak"
+  },
+  "repository": "https://github.com/leiak/nitpick-skills",
+  "license": "MIT",
+  "keywords": [
+    "code-review",
+    "audit",
+    "architecture",
+    "security",
+    "performance",
+    "testing",
+    "developer-experience",
+    "typescript",
+    "python",
+    "go",
+    "rust",
+    "java",
+    "kotlin",
+    "csharp",
+    "cpp",
+    "swift",
+    "ruby",
+    "php"
+  ]
+}
