@@ -68,6 +68,7 @@ Some problems manifest across multiple dimensions. When you find one, tag it wit
 - `@root:fat-controllers` — business logic in controllers causes low scores in Architecture, Code Quality, and Testing (untestable)
 - `@root:no-types` — missing type safety causes low scores in Code Quality, Testing (harder to assert), and DX (poor autocomplete)
 - `@root:hardcoded-secrets` — causes low scores in Security and DX (impossible to deploy safely)
+- `@root:tight-coupling` — infrastructure details inside business logic cause low scores in Architecture, Testing (harder to substitute), and Performance/Security when transport or storage choices become fixed
 - `@root:tactical-mode` — the team is developing tactically (no design investment); architecture, code quality, and DX all suffer slowly
 
 Do not force a cross-dimension tag if the problem is genuinely isolated.

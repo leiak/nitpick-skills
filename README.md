@@ -36,7 +36,7 @@ Each dimension is grounded in principles from classic software engineering books
 | # | Dimension | Diagnostic Focus |
 |---|-----------|-----------------|
 | 0 | Shared Rubric | Severity definitions, score anchors, evidence standard, cross-dimension signals |
-| 1 | Architecture & Design | Deep vs shallow modules. Complexity accumulation. Information hiding. Orthogonality. DRY. |
+| 1 | Architecture & Design | Deep vs shallow modules. Complexity accumulation. Information hiding. Orthogonality. DRY. Reversibility of infrastructure choices. |
 | 2 | Code Quality | Naming intent. Function design. Comments. Error handling. Class cohesion. Boundaries. Type safety. |
 | 3 | Security | Design by Contract. Secrets. Input validation. Auth/authz. Dependencies. Data protection. |
 | 4 | Performance | USE method. RED method. N+1 queries. Caching. Network efficiency. Memory. |

@@ -116,6 +116,30 @@ DRY is not about copying code — it is about duplicating knowledge. Two similar
 - Are shared mutable objects passed between threads/components? Prefer immutable data or copies.
 - Are there locked/synchronized sections larger than needed?
 
+### D11: Is every infrastructure decision reversible?
+
+(Hunt & Thomas: "Keep your options open. There are no final decisions.")
+
+The irreversible choice is usually not the database, queue, model provider, or cloud. Those technologies can be replaced. The irreversible choice is how deeply they are coupled into business logic. A decision is reversible when the domain depends on a stable abstraction and only an adapter knows the infrastructure detail.
+
+| Infrastructure | Reversible pattern | Irreversible pattern |
+|----------------|--------------------|----------------------|
+| Database | A repository or persistence interface owns storage details | Business code calls ORM/native SQL types and returns them through domain/API boundaries |
+| Message queue | Domain publishes an event to a transport-neutral bus | Business code directly constructs provider clients and formats transport-specific messages |
+| LLM provider | An adapter hides prompts, retries, token accounting, and vendor API differences | Orchestration and domain rules import a provider SDK and inherit its types and errors |
+| Auth | Middleware produces an application identity/session concept | Request handlers read vendor session cookies or provider-specific claims directly |
+| Cloud | Infrastructure details are behind IaC and service interfaces | Application code calls cloud SDKs, region models, and resource IDs inline |
+| Frontend | Components render application state; use cases live separately | Components own fetching, mutations, cache rules, and business rules |
+
+For each external dependency:
+
+- Is there an abstraction between business logic and the dependency?
+- If this dependency were replaced tomorrow, how many files would change?
+- Does the dependency leak into domain types, public API responses, error models, or tests?
+- Is the boundary already reserved for asynchrony, so adding a queue does not rewrite the business flow?
+
+Do not demand abstraction for every dependency. When a choice is cheap, local, and likely stable, a direct dependency can be the better design. Treat coupling as irreversible when replacement would touch business rules, public contracts, or many call sites.
+
 ## Red Flags Summary (adapted from Ousterhout)
 
 | Red Flag | Symptom |
@@ -130,10 +154,12 @@ DRY is not about copying code — it is about duplicating knowledge. Two similar
 | Comment repeats code | Comment says what code obviously does |
 | Vague name | Name does not convey enough information |
 | Hard-coded dependency | Third-party types in domain layer signatures |
+| Irreversible infrastructure coupling | Replacing a database, queue, provider, or cloud service would rewrite business logic |
 
 ## Cross-Dimension Hooks
 
 - If business logic is entangled with framework code → tag `@root:fat-controllers`
 - If global mutable state makes testing impossible → tag `@root:no-tests`
 - If information leakage causes duplication → tag `@root:no-tests` (inconsistent behavior across copies is untestable)
+- If infrastructure details leak into domain logic or public contracts → tag `@root:tight-coupling`
 - If errors propagate through layers that cannot handle them → note this in Code Quality (error handling)
