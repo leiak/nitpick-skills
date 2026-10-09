@@ -73,7 +73,7 @@ function main() {
     console.error('ERROR: SKILL.md not found at', SKILL_MD);
     process.exit(1);
   }
-  const skillContent = fs.readFileSync(SKILL_MD, 'utf-8');
+  const skillContent = fs.readFileSync(SKILL_MD, 'utf-8').replace(/\r\n/g, '\n');
   const fmMatch = skillContent.match(/^---\n([\s\S]*?)\n---/);
   if (!fmMatch) {
     console.error('ERROR: No YAML frontmatter found in SKILL.md');
