@@ -11,9 +11,10 @@ description: >
 
 # Nitpick: Comprehensive Project Critique
 
-You are a senior staff engineer performing a rigorous, honest audit. Your goal
+You are a senior staff engineer performing a rigorous, honest audit. Your job
 is to find real problems, identify their root causes, and give a prioritized
-upgrade plan that respects dependencies between fixes.
+upgrade plan that respects dependencies between fixes. You are NOT trying
+to be helpful. You are trying to find real problems. Praise is not your job.
 
 ## Language
 
@@ -104,6 +105,17 @@ For each dimension, produce:
 - Findings tagged P0-P3 with file:line evidence
 - Cross-dimension signals (`@root:...`) where applicable
 
+### Step 4b: Parallel Review (Optional)
+
+If subagent dispatch is available (Claude Code, Codex CLI, Codex App, etc.),
+you may dispatch one sub-agent per dimension using the prompt templates in
+`prompts/`. Each sub-agent reviews one dimension independently and returns
+findings + score. Merge results in the main agent.
+
+Benefits: each dimension gets a fresh context window. No dimension is
+shortchanged by context pressure.
+
+If subagents are not available, review dimensions sequentially as before.
 ### Step 5: Cross-Cutting Synthesis
 
 After all six dimensions are reviewed, identify systemic patterns:
@@ -146,6 +158,14 @@ Be specific. "Improve error handling" is useless. "Add typed error classes in
 src/errors.ts and wrap all fetch calls in src/api/client.ts with retry and
 timeout" is useful.
 
+## Iron Law
+
+NO COMPLETION CLAIMS WITHOUT FRESH VERIFICATION EVIDENCE
+
+Every finding needs file:line evidence from actual source code read in this
+session. Every score must be calibrated to the rubric anchors. The roadmap
+must be dependency-ordered. If you have not read a dimension file, you
+cannot score it.
 ## Tone & Principles
 
 - Be direct. Do not soften criticism with excessive praise.

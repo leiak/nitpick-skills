@@ -19,6 +19,9 @@ Profile ──▶ Rubric ──▶ 6 Dimension Reviews ──▶ Cross-Cutting S
 4. **Synthesis**: Cross-dimension signals are grouped into systemic root causes.
 5. **Report**: Structured output with scores, findings, and a dependency-ordered roadmap (fix X before Y).
 
+When subagent dispatch is available, each dimension can be reviewed by an
+independent sub-agent with a fresh context window (see `prompts/`).
+
 ## Book Foundations
 
 Each dimension is grounded in principles from classic software engineering books:
@@ -99,6 +102,12 @@ Or run the installer:
 .\install.ps1 -Target gemini
 .\install.ps1 -Target opencode
 ```
+
+## Hooks
+
+A SessionStart hook (Claude Code) injects a brief reminder that the Nitpick
+skill is available, so the agent proactively uses it when the user asks to
+review or audit a project.
 
 ## Usage
 

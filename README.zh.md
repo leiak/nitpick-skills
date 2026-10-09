@@ -118,6 +118,11 @@ Copy-Item -Recurse skills\nitpick "$env:USERPROFILE\.opencode\skills\nitpick"
 .\install.ps1 -Target codex
 ```
 
+## Hooks
+
+Claude Code 的 SessionStart hook 会在会话开始时注入 Nitpick 可用提醒，
+确保 agent 在用户要求审查时主动使用该技能。
+
 ## 使用
 
 对 agent 说：

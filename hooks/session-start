@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+# SessionStart hook for Nitpick plugin
+# Injects a brief reminder that the Nitpick skill is available.
+
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+PLUGIN_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
+
+reminder="<NITPICK-AVAILABLE>The nitpick skill is available. Use it when the user asks to review, audit, critique, or nitpick a project. Announce \"Using nitpick skill\" and follow its workflow exactly. Do not skip dimensions. Do not skip the rubric. Every finding needs file:line evidence.</NITPICK-AVAILABLE>"
+
+# Escape for JSON embedding
+escaped=$(printf '%s' "$reminder" | sed 's/\\/\\\\/g; s/"/\\"/g' | tr '\n' ' ')
+
+printf '{\n  "additional_context": "%s"\n}\n' "$escaped"

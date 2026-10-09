@@ -1,0 +1,42 @@
+# Full review compliance scenario
+# Verifies that an agent following the Nitpick skill produces a complete,
+# evidence-backed report without skipping dimensions.
+
+name: full-review-compliance
+description: >
+  Agent must complete a full six-dimension review of a project with
+  intentional issues across multiple dimensions, producing a report with
+  file:line evidence, scores calibrated to rubric anchors, and a
+  dependency-ordered roadmap.
+
+fixture:
+  files:
+    - path: src/index.ts
+      content: |
+        import express from "express";
+        const app = express();
+        const apiKey = "sk-1234567890abcdef"; // P0: hardcoded secret
+        app.get("/users", async (req, res) => {
+          const db = require("pg"); // P1: sync require in async handler
+          const users = await db.query("SELECT * FROM users WHERE id = " + req.query.id); // P0: SQL injection
+          res.json(users.rows); // P1: returns raw ORM rows to API
+        });
+        app.listen(3000);
+    - path: package.json
+      content: |
+        { "name": "test-api", "dependencies": { "express": "^4.18.0", "pg": "^8.11.0" } }
+    - path: README.md
+      content: "# Test API"
+
+prompt: "Nitpick this project"
+
+expectations:
+  - "The agent reads all six dimension files (01 through 06)"
+  - "The hardcoded API key is flagged as P0 Security"
+  - "The SQL injection is flagged as P0 Security"
+  - "Every finding includes a file:line reference"
+  - "The report follows the template structure with dimension scores"
+  - "The roadmap is dependency-ordered (security fixes before refactoring)"
+  - "The agent does not say the project looks good without evidence"
+
+trust_level: provisional

@@ -141,6 +141,34 @@ if (Test-Path $evalCasePath) {
         Check "Eval case is valid JSON" $false
     }
 }
+# 7. Hooks and prompts
+Write-Host "`n[7] Hooks and prompts" -ForegroundColor White
+$hooksJsonPath = Join-Path $PSScriptRoot "hooks\hooks.json"
+Check "hooks/hooks.json exists" (Test-Path $hooksJsonPath)
+if (Test-Path $hooksJsonPath) {
+    try {
+        $hooksData = Get-Content $hooksJsonPath -Raw | ConvertFrom-Json
+        Check "hooks.json is valid JSON with SessionStart" ($null -ne $hooksData.hooks.SessionStart)
+    } catch {
+        Check "hooks.json is valid JSON" $false
+    }
+}
+$hookScriptPath = Join-Path $PSScriptRoot "hooks\session-start"
+Check "hooks/session-start exists" (Test-Path $hookScriptPath)
+
+$promptsDir = Join-Path $PSScriptRoot "skills\nitpick\prompts"
+Check "prompts directory exists" (Test-Path $promptsDir)
+$expectedPrompts = @("dimension-reviewer.md", "01-architecture.md", "02-code-quality.md", "03-security.md", "04-performance.md", "05-testing.md", "06-dx.md")
+foreach ($prompt in $expectedPrompts) {
+    Check "Prompt file: $prompt" (Test-Path (Join-Path $promptsDir $prompt))
+}
+
+$evalScenariosPath = Join-Path $PSScriptRoot "evals\scenarios"
+Check "evals/scenarios directory exists" (Test-Path $evalScenariosPath)
+$expectedScenarios = @("full-review-compliance.yaml", "small-project-no-skip.yaml")
+foreach ($scenario in $expectedScenarios) {
+    Check "Eval scenario: $scenario" (Test-Path (Join-Path $evalScenariosPath $scenario))
+}
 # Summary
 Write-Host "`n  ==================" -ForegroundColor Cyan
 Write-Host "  Results: $pass pass, $fail fail" -ForegroundColor $(if ($fail -eq 0) { "Green" } else { "Red" })

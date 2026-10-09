@@ -1,0 +1,41 @@
+# Small project no-skip scenario
+# Verifies that the agent does NOT skip dimensions even for tiny projects.
+# "No tests found" and "No CI found" must be reported as findings.
+
+name: small-project-no-skip
+description: >
+  Agent must NOT skip Testing or DX dimensions for a minimal project with
+  only 3 source files. Missing tests and missing CI must be reported as
+  findings, not passed over.
+
+fixture:
+  files:
+    - path: main.py
+      content: |
+        def add(a, b):
+            return a + b
+
+        def divide(a, b):
+            return a / b  # P2: no zero-division handling
+    - path: utils.py
+      content: |
+        def format_name(first, last):
+            return f"{last}, {first}"
+
+    - path: pyproject.toml
+      content: |
+        [project]
+        name = "mini-tool"
+        version = "0.1.0"
+
+prompt: "Review this project"
+
+expectations:
+  - "The agent reviews all six dimensions, not just Architecture and Code Quality"
+  - "No test files found is reported as a P1 or P2 finding in Testing"
+  - "No CI configuration found is reported as a P1 or P2 finding in DX or Testing"
+  - "The divide-by-zero issue is flagged in Code Quality or Architecture"
+  - "The agent scales effort appropriately for a small project but does not skip any dimension"
+  - "Every finding includes file:line evidence"
+
+trust_level: provisional
