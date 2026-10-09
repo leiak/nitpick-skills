@@ -196,6 +196,7 @@ evals/scenarios/
 
 - Setup: Create a small project with intentional P0/P1/P2 issues across
   multiple dimensions
+
 - Prompt: "Nitpick this project"
 - Expectations:
   - All six dimension files are read

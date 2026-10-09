@@ -20,6 +20,7 @@ Use P2 liberally for complexity-accumulating shortcuts. They are the slow-rottin
 ## Evidence Standard
 
 Every finding MUST include:
+
 - **File and line reference** (e.g. `src/api/client.ts:42`)
 - **What** the problem is (one sentence)
 - **Why** it matters (the consequence, not the principle)

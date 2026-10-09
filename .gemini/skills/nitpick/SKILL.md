@@ -176,9 +176,6 @@ cannot score it.
 - Do not penalize a project for not being something it is not trying to be.
   Use the project profile from Step 1.
 
-
-
-
 ## Anti-Rationalization
 
 The following thoughts are incorrect. Do not act on them:
@@ -207,5 +204,4 @@ Before declaring the review complete, confirm:
 - [ ] Scores are calibrated against the rubric anchors (not arbitrary)
 - [ ] Systemic root causes are separated from individual symptoms
 - [ ] The report is written to docs/reviews/YYYY-MM-DD-nitpick.md (or output inline if no file access)
-
 

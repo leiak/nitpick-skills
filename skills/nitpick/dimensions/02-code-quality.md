@@ -41,12 +41,14 @@ Pick 5 non-trivial variables/functions/classes. For each:
 (Martin Ch.4: "The proper use of comments is to compensate for our failure to express ourselves in code. Inaccurate comments are far worse than no comments at all.")
 
 Good comments (keep these):
+
 - Legal headers and license notices
 - Warnings of consequences ("This will take 5 minutes to run")
 - Explanation of intent for genuinely obscure algorithms
 - Clarification when the code cannot be made clearer
 
 Bad comments (delete these):
+
 - Redundant (repeat what the code says)
 - Misleading or stale (code changed, comment did not)
 - Mandated (every function must have a JSDoc)

@@ -23,6 +23,7 @@ Map existing tests to layers:
 | End-to-end | Full system through the UI/API | ~10% | Slow (min) | High |
 
 Red flags:
+
 - **Ice cream cone**: more E2E tests than unit tests → slow, brittle, hard to debug, edge cases missed
 - **Inverted pyramid**: only E2E tests, no unit tests → bugs found late
 - **Hourglass**: many unit tests and E2E tests but no integration tests → component interactions untested
@@ -63,6 +64,7 @@ Use mocks only when: the real implementation is too slow, non-deterministic, or 
 ### T4: Are edge cases covered?
 
 For each critical function:
+
 - Empty input (empty string, empty array, empty object)
 - Null / undefined / None values
 - Boundary values (0, 1, -1, max int, min int)

@@ -90,6 +90,7 @@ extended.
 #### Validation update
 
 `validate.ps1` will be updated to:
+
 - Check that `evals/cases/nitpick.json` exists and is valid JSON
 - Check that at least 3 positive and 2 negative triggers are present
 

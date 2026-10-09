@@ -26,6 +26,7 @@ If the project is TypeScript, read this file in addition to the six dimension fi
     | { type: 'unconfirmed'; items: Item[] }
     | { type: 'shipped'; items: Item[]; shippedDate: Date }
   ```
+
 - Are string literals used for statuses instead of union types?
 - Are branded types used for validated values (e.g. `type PositiveNumber = number & { __brand: 'positive' }`)?
 

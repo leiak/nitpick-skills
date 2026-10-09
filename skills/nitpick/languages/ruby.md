@@ -34,6 +34,7 @@ If the project is Ruby, read this file in addition to the six dimension files. A
     end
   end
   ```
+
 - Are argument-order dependencies removed (use keyword arguments)?
 - Is dependency direction sensible (depend on abstractions, not concretions)?
 

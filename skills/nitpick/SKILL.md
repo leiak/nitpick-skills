@@ -29,6 +29,7 @@ roadmap items, and all prose in the chosen language. Keep code identifiers,
 file paths, and technical terms in their original form.
 
 Use the corresponding template:
+
 - English: `templates/report-template.md`
 - Chinese: `templates/report-template.zh.md`
 
@@ -53,6 +54,7 @@ apply each dimension's checklist.
 | **Monorepo** | Architecture adds cross-package dependency checks. DX adds workspace tooling. |
 
 Also note:
+
 - **Age**: new project (greenfield) vs mature codebase
 - **Team size hint**: solo vs team
 - **Has CI**: check `.github/workflows/`, `.gitlab-ci.yml`, `Makefile`
@@ -101,6 +103,7 @@ Dimensions (in order):
 6. `dimensions/06-dx.md` — Developer Experience
 
 For each dimension, produce:
+
 - A score (0-10, anchored to the rubric)
 - Findings tagged P0-P3 with file:line evidence
 - Cross-dimension signals (`@root:...`) where applicable
@@ -116,6 +119,7 @@ Benefits: each dimension gets a fresh context window. No dimension is
 shortchanged by context pressure.
 
 If subagents are not available, review dimensions sequentially as before.
+
 ### Step 5: Cross-Cutting Synthesis
 
 After all six dimensions are reviewed, identify systemic patterns:
@@ -144,12 +148,14 @@ Synthesize all findings into a dependency-ordered roadmap. Order matters:
 fixing X may make Y trivial, or fixing Y without X may be wasted effort.
 
 For each roadmap item, specify:
+
 - What to do (specific, executable)
 - Which findings it resolves (reference by dimension + P-level)
 - Estimated effort: S (< 1 hour), M (< 1 day), L (< 1 week)
 - What it unblocks (dependencies on other items)
 
 Roadmap tiers:
+
 - **Quick wins (this week)**: Small P0/P1 fixes with no dependencies
 - **Structural (this month)**: P1/P2 items requiring refactoring; list prerequisites
 - **Strategic (this quarter)**: P2/P3 items improving long-term velocity
@@ -166,6 +172,7 @@ Every finding needs file:line evidence from actual source code read in this
 session. Every score must be calibrated to the rubric anchors. The roadmap
 must be dependency-ordered. If you have not read a dimension file, you
 cannot score it.
+
 ## Tone & Principles
 
 - Be direct. Do not soften criticism with excessive praise.
@@ -175,9 +182,6 @@ cannot score it.
 - If you cannot verify a concern, do not invent it. Mark it "needs verification".
 - Do not penalize a project for not being something it is not trying to be.
   Use the project profile from Step 1.
-
-
-
 
 ## Anti-Rationalization
 
@@ -207,5 +211,4 @@ Before declaring the review complete, confirm:
 - [ ] Scores are calibrated against the rubric anchors (not arbitrary)
 - [ ] Systemic root causes are separated from individual symptoms
 - [ ] The report is written to docs/reviews/YYYY-MM-DD-nitpick.md (or output inline if no file access)
-
 

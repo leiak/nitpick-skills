@@ -15,6 +15,7 @@ Before scoring, re-read `00-rubric.md` for severity definitions and score anchor
 A deep module has a simple interface hiding a rich implementation. A shallow module has an interface as complex as its implementation.
 
 For each major module:
+
 - Count public methods/exports. Compare to internal complexity.
 - **Shallow red flag**: interface exposes as many concepts as it implements.
 - **Shallow red flag**: pass-through methods — a method that does nothing except delegate to another method. Each pass-through transfers the caller's complexity to the interface without adding functionality.
@@ -45,6 +46,7 @@ Ousterhout's strategies, in order of preference:
 | **Just crash** | Unrecoverable errors — do not pretend you can handle them | Missing/corrupt config at startup: crash with a clear message rather than threading an error through 10 layers |
 
 For each error type in the codebase:
+
 - Could the semantics be redefined so this error cannot occur?
 - Is the caller being forced to handle a case it cannot fix (Ousterhout: "If the config is missing at startup, no amount of error handling will fix it")?
 - Is the error being swallowed silently when it should be defined away or crashed on?

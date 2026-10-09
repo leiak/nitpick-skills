@@ -47,6 +47,7 @@ Each dimension is grounded in principles from classic software engineering books
 | 6 | Developer Experience | Time to first change. Broken windows. Tracer bullets. Good-enough calibration. CI. Docs freshness. |
 
 ## Language
+
 ## Language-Specific Reviews
 
 Beyond the six general dimensions, Nitpick applies language-specific diagnostic questions derived from each language's classic books:
@@ -189,5 +190,4 @@ nitpick/
 ## License
 
 MIT
-
 

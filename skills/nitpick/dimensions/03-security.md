@@ -32,6 +32,7 @@ For each public function/endpoint, check three things:
 | **Invariant** | What must always be true about the object? | An `Account` object can exist with negative balance after a race condition |
 
 Specific checks:
+
 - Is input validated at the boundary, or does the system assume well-formed input?
 - Are SQL queries parameterized, or is there string concatenation? (`rg "SELECT.*\+|SELECT.*\$\{" src/`)
 - Is user input rendered without escaping (XSS risk)?
