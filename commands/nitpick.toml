@@ -1,0 +1,10 @@
+description = "Comprehensive project critique across six dimensions"
+
+prompt = """
+Invoke the nitpick skill.
+
+Review the codebase across architecture, code quality, security,
+performance, testing, and DX. Apply language-specific guides.
+Produce a structured report with scores, findings, root causes,
+and a dependency-ordered roadmap.
+"""

@@ -90,6 +90,26 @@ Copy-Item -Recurse skills\nitpick .agents\skills\nitpick
 Copy-Item -Recurse skills\nitpick "$env:USERPROFILE\.agents\skills\nitpick"
 ```
 
+### Gemini CLI
+
+```powershell
+# 项目级
+Copy-Item -Recurse skills\nitpick .gemini\skills\nitpick
+
+# 或全局
+Copy-Item -Recurse skills\nitpick "$env:USERPROFILE\.gemini\skills\nitpick"
+```
+
+### OpenCode
+
+```powershell
+# 项目级
+Copy-Item -Recurse skills\nitpick .opencode\skills\nitpick
+
+# 或全局
+Copy-Item -Recurse skills\nitpick "$env:USERPROFILE\.opencode\skills\nitpick"
+```
+
 或使用安装脚本：
 
 ```powershell

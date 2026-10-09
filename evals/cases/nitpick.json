@@ -1,0 +1,17 @@
+{
+  "skill_name": "nitpick",
+  "trigger": {
+    "positive": [
+      { "prompt": "Review this project", "top_k": 3 },
+      { "prompt": "Nitpick this codebase", "top_k": 1 },
+      { "prompt": "用中文审查这个项目", "top_k": 3 },
+      { "prompt": "Audit the architecture and code quality", "top_k": 3 },
+      { "prompt": "Critique my project and give me an upgrade roadmap", "top_k": 3 }
+    ],
+    "negative": [
+      { "prompt": "Write a REST API endpoint", "owner": null },
+      { "prompt": "Fix this TypeScript compilation error", "owner": null },
+      { "prompt": "Generate unit tests for this function", "owner": null }
+    ]
+  }
+}

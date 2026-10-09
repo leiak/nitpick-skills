@@ -23,6 +23,9 @@ jobs:
         shell: pwsh
         run: ./validate.ps1
 
+      - name: Run trigger evals
+        run: node scripts/run-evals.js
+
       - name: Install test
         shell: pwsh
         run: ./validate.ps1 -TestInstall

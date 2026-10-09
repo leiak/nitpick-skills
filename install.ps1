@@ -1,6 +1,6 @@
 param(
-    [ValidateSet("claude", "codex", "both")]
-    [string]$Target = "both"
+    [ValidateSet("claude", "codex", "gemini", "opencode", "all")]
+    [string]$Target = "all"
 )
 
 $ErrorActionPreference = "Stop"
@@ -32,20 +32,33 @@ function Install-Skill {
 Write-Host "`n  Nitpick Installer" -ForegroundColor Cyan
 Write-Host "  =================`n" -ForegroundColor Cyan
 
-if ($Target -in @("claude", "both")) {
+if ($Target -in @("claude", "all")) {
     Write-Host "[Claude Code]" -ForegroundColor White
     Install-Skill -DestinationRoot (Join-Path (Get-Location) ".claude\skills") -Label "project"
     try { Install-Skill -DestinationRoot (Join-Path $env:USERPROFILE ".claude\skills") -Label "global " } catch { Write-Host "  [global ] Skipped: $_" -ForegroundColor DarkGray }
     Write-Host ""
 }
 
-if ($Target -in @("codex", "both")) {
+if ($Target -in @("codex", "all")) {
     Write-Host "[Codex]" -ForegroundColor White
     Install-Skill -DestinationRoot (Join-Path (Get-Location) ".agents\skills") -Label "project"
     try { Install-Skill -DestinationRoot (Join-Path $env:USERPROFILE ".agents\skills") -Label "global " } catch { Write-Host "  [global ] Skipped: $_" -ForegroundColor DarkGray }
     Write-Host ""
 }
 
+if ($Target -in @("gemini", "all")) {
+    Write-Host "[Gemini CLI]" -ForegroundColor White
+    Install-Skill -DestinationRoot (Join-Path (Get-Location) ".gemini\skills") -Label "project"
+    try { Install-Skill -DestinationRoot (Join-Path $env:USERPROFILE ".gemini\skills") -Label "global " } catch { Write-Host "  [global ] Skipped: $_" -ForegroundColor DarkGray }
+    Write-Host ""
+}
+
+if ($Target -in @("opencode", "all")) {
+    Write-Host "[OpenCode]" -ForegroundColor White
+    Install-Skill -DestinationRoot (Join-Path (Get-Location) ".opencode\skills") -Label "project"
+    try { Install-Skill -DestinationRoot (Join-Path $env:USERPROFILE ".opencode\skills") -Label "global " } catch { Write-Host "  [global ] Skipped: $_" -ForegroundColor DarkGray }
+    Write-Host ""
+}
 Write-Host "Done. Ask your agent: 'Nitpick this project'" -ForegroundColor Cyan
 
 

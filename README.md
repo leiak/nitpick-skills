@@ -93,9 +93,11 @@ Copy-Item -Recurse skills\nitpick "$env:USERPROFILE\.agents\skills\nitpick"
 Or run the installer:
 
 ```powershell
-.\install.ps1              # installs to both (default)
+.\install.ps1              # installs to all platforms (default)
 .\install.ps1 -Target claude
 .\install.ps1 -Target codex
+.\install.ps1 -Target gemini
+.\install.ps1 -Target opencode
 ```
 
 ## Usage

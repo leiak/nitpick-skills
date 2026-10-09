@@ -126,10 +126,25 @@ if ($TestInstall) {
     }
 }
 
+# 6. Trigger evaluation
+Write-Host "`n[6] Trigger evaluation" -ForegroundColor White
+$evalCasePath = Join-Path $PSScriptRoot "evals\cases\nitpick.json"
+Check "Eval case exists" (Test-Path $evalCasePath)
+if (Test-Path $evalCasePath) {
+    try {
+        $evalData = Get-Content $evalCasePath -Raw | ConvertFrom-Json
+        $posCount = $evalData.trigger.positive.Count
+        $negCount = $evalData.trigger.negative.Count
+        Check "At least 3 positive triggers (found: $posCount)" ($posCount -ge 3)
+        Check "At least 2 negative triggers (found: $negCount)" ($negCount -ge 2)
+    } catch {
+        Check "Eval case is valid JSON" $false
+    }
+}
 # Summary
 Write-Host "`n  ==================" -ForegroundColor Cyan
 Write-Host "  Results: $pass pass, $fail fail" -ForegroundColor $(if ($fail -eq 0) { "Green" } else { "Red" })
 Write-Host "  ==================`n" -ForegroundColor Cyan
 
 exit $(if ($fail -eq 0) { 0 } else { 1 })
-
+
