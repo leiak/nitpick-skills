@@ -50,6 +50,7 @@ If a test suite exists, estimate its shape. If the shape is wrong, flag P2.
 **DAMP over DRY in tests**: In production code, DRY is usually right. In tests, **DAMP** (Descriptive And Meaningful Phrases) is better. Each test should read like a specification — a complete story without requiring the reader to trace through shared helpers.
 
 **Mock preference order** (most to least preferred):
+
 1. **Real implementation** → Highest confidence, catches real bugs
 2. **Fake** → In-memory version of a dependency (e.g., fake DB)
 3. **Stub** → Returns canned data, no behavior

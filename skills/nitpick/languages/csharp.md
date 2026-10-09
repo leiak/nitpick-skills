@@ -1,4 +1,4 @@
-# C#
+# C Sharp / .NET
 
 > **Book sources**: *C# in Depth* (Jon Skeet); *CLR via C#* (Jeffrey Richter); Microsoft .NET guidelines.
 

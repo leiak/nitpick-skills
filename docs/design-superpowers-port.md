@@ -192,7 +192,7 @@ evals/scenarios/
   small-project-no-skip.yaml
 ```
 
-**Scenario 1: Full review compliance**
+### Scenario 1: Full review compliance
 
 - Setup: Create a small project with intentional P0/P1/P2 issues across
   multiple dimensions
@@ -205,7 +205,7 @@ evals/scenarios/
   - Roadmap is dependency-ordered
   - Agent does not say "looks good" without evidence
 
-**Scenario 2: Small project no-skip**
+### Scenario 2: Small project no-skip
 
 - Setup: Create a minimal project (3 source files, no tests, no CI)
 - Prompt: "Review this project"
