@@ -109,6 +109,28 @@ A SessionStart hook (Claude Code) injects a brief reminder that the Nitpick
 skill is available, so the agent proactively uses it when the user asks to
 review or audit a project.
 
+## Quality Guards
+
+The skill includes built-in mechanisms to prevent shallow or incomplete
+reviews:
+
+- **Iron Law**: No completion claims without fresh verification evidence. Every finding needs file:line evidence read in this session.
+- **Anti-Rationalization**: Explicit guards against skipping dimensions, softening criticism, or omitting evidence.
+- **Verification Checklist**: 10-item self-check before the agent declares the review complete.
+- **Parallel Review**: When subagent dispatch is available, each dimension is reviewed by an independent sub-agent with a fresh context window (prompts in `prompts/`).
+
+## Evaluation
+
+Nitpick has two tiers of automated testing:
+
+| Tier | What it checks | Runs |
+|------|----------------|------|
+| Structural | File existence, cross-references, hook JSON, prompt files | CI (`validate.ps1`, 70 checks) |
+| Trigger | Positive prompts rank Nitpick; negative prompts do not | CI (`node scripts/run-evals.js`) |
+
+Behavioral scenarios (real LLM sessions verifying agent compliance) are in
+`evals/scenarios/` and run on-demand, not in CI.
+
 ## Usage
 
 Ask your agent:
@@ -141,18 +163,21 @@ Every finding includes: what the problem is, why it matters, a concrete fix, and
 nitpick/
 ├── skills/
 │   └── nitpick/
-│       ├── SKILL.md              # Orchestrator: workflow, profiling, synthesis
-│       └── dimensions/
-│           ├── 00-rubric.md      # Shared scoring framework
-│           ├── 01-architecture.md
-│           ├── 02-code-quality.md
-│           ├── 03-security.md
-│           ├── 04-performance.md
-│           ├── 05-testing.md
-│           └── 06-dx.md
-│       └── templates/
-│           ├── report-template.md
-│           └── report-template.zh.md
+│       ├── SKILL.md              # Orchestrator: workflow, Iron Law, anti-rationalization
+│       ├── dimensions/           # Six dimension checklists + shared rubric
+│       ├── languages/            # 11 language-specific guides
+│       ├── prompts/              # Parallel review persona prompts (per dimension)
+│       └── templates/            # Report templates (EN + ZH)
+├── hooks/
+│   ├── hooks.json                # Claude Code SessionStart hook config
+│   └── session-start             # Bootstrap injection script
+├── evals/
+│   ├── cases/nitpick.json        # Trigger evaluation (CI)
+│   └── scenarios/                # Behavioral scenarios (on-demand)
+├── scripts/
+│   └── run-evals.js              # Trigger eval runner
+├── commands/
+│   └── nitpick.toml              # Platform-agnostic slash command
 ├── templates/
 │   ├── report-template.md
 │   └── report-template.zh.md

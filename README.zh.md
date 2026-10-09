@@ -123,6 +123,26 @@ Copy-Item -Recurse skills\nitpick "$env:USERPROFILE\.opencode\skills\nitpick"
 Claude Code 的 SessionStart hook 会在会话开始时注入 Nitpick 可用提醒，
 确保 agent 在用户要求审查时主动使用该技能。
 
+## 质量保障
+
+技能内置了防止浅层审查的机制：
+
+- **铁律（Iron Law）**：没有新鲜验证证据就不能声称完成。每条发现必须有本会话实际读取的 file:line 证据。
+- **反合理化（Anti-Rationalization）**：明确阻止跳过维度、软化批评或省略证据。
+- **验证清单（Verification）**：agent 声明审查完成前的 10 项自查。
+- **并行审查（Parallel Review）**：支持 subagent 分发时，每个维度由独立 sub-agent 审查（见 `prompts/`）。
+
+## 评测
+
+Nitpick 有两层自动化测试：
+
+| 层级 | 检查内容 | 运行方式 |
+|------|----------|----------|
+| 结构校验 | 文件存在、交叉引用、hook JSON、prompt 文件 | CI（`validate.ps1`，70 项） |
+| 触发评测 | 正例提示命中 Nitpick，负例不命中 | CI（`node scripts/run-evals.js`） |
+
+行为评测场景（真实 LLM 会话验证 agent 合规性）在 `evals/scenarios/` 中，按需执行，不进 CI。
+
 ## 使用
 
 对 agent 说：
@@ -155,9 +175,21 @@ Agent 将对项目进行画像、逐维度诊断、识别跨维度根因，并�
 nitpick/
 ├── skills/
 │   └── nitpick/
-│       ├── SKILL.md              # 编排器：工作流、画像、综合
-│       └── dimensions/
-│           ├── 00-rubric.md      # 共享评分框架
+│       ├── SKILL.md              # 编排器：工作流、铁律、反合理化
+│       ├── dimensions/           # 六个维度检查清单 + 共享评分框架
+│       ├── languages/            # 11 种语言专属指南
+│       ├── prompts/              # 并行审查 persona prompts（每维度一个）
+│       └── templates/            # 报告模板（中英双语）
+├── hooks/
+│   ├── hooks.json                # Claude Code SessionStart hook 配置
+│   └── session-start             # Bootstrap 注入脚本
+├── evals/
+│   ├── cases/nitpick.json        # 触发评测（CI）
+│   └── scenarios/                # 行为评测场景（按需）
+├── scripts/
+│   └── run-evals.js              # 触发评测运行器
+├── commands/
+│   └── nitpick.toml              # 平台无关的 slash 命令
 │           ├── 01-architecture.md
 │           ├── 02-code-quality.md
 │           ├── 03-security.md
